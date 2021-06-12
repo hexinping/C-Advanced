@@ -11,7 +11,11 @@ namespace Advance
         static void Main(string[] args)
         {
             Console.WriteLine("hexinping");
+            List<int> list = new List<int>(100);
+            list.Add(1);
 
+            string str = "sdfsdf";
+            int a = str.Length;
             Console.ReadLine();
 
 
