@@ -1,5 +1,7 @@
-﻿using System;
+﻿#define BUG
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -33,8 +35,12 @@ namespace Advance
                 SquarePtrParam(&i);
                 Console.WriteLine($"i is {i}");
             }
-           
-            
+
+
+
+            //Attribute 测试
+            TestAttribute();
+
             Console.ReadLine();
         }
 
@@ -61,7 +67,39 @@ namespace Advance
         {
             *p *= *p;
         }
-         
+
+
+        /*
+            Attribute是一种可由用户自有定义的修饰符（Modifier），可以用来修饰各种需要被修饰的目标，修饰符（比如private、public、static、override、virtual等等）是C#语言本身的关键字。
+            简单地说，Attribute就是一种“附着物”——就像牡蛎吸附在船底或礁石上一样。
+            这些附着物的作用是为它们的附着体追加上一些额外的信息（这些信息保存在附着物的体内）——比如“这个类是我写的”或者“这个函数以前出过问题”
+
+            https://blog.csdn.net/xiaouncle/article/details/70216951
+            https://blog.csdn.net/xiaouncle/article/details/70229119
+
+            Attribute本质上就是一个类，它附着在目标对象上最终实例化 
+            Attribute并不是修饰符，而是一个有着独特实例化形式的类
+
+         */
+
+        static void TestAttribute()
+        {
+            PrintA();
+            PrintB(); //PrintB的条件是定义了NOBUG才会生效，感觉编译后这句代码会被优化，等于没有执行
+        }
+
+        //Conditional 是C#本身的特性，意思就是方法PrintA，只有在定义了“BUG”才会生效
+        [Conditional("BUG")]
+        static void PrintA()
+        {
+            Console.WriteLine("PrintA==========");
+        }
+
+        [Conditional("NOBUG")]
+        static void PrintB()
+        {
+            Console.WriteLine("PrintB==========");
+        }
     }
 }
 
