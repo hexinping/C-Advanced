@@ -1,4 +1,4 @@
-﻿#define BUG
+#define BUG
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,17 +17,17 @@ namespace Advance
             List<int> list = new List<int>(100);
             list.Add(1);
 
-  
-        
-            
-            
+
+
+
+
             Task<int> taskAsync= GetPageLengthAsync("https://www.baidu.com/");
             Console.WriteLine($"Length is {taskAsync.Result}");  //taskAsync需要解包下
 
 
 
 
-            
+
 
             unsafe
             {
@@ -77,8 +77,16 @@ namespace Advance
             https://blog.csdn.net/xiaouncle/article/details/70216951
             https://blog.csdn.net/xiaouncle/article/details/70229119
 
-            Attribute本质上就是一个类，它附着在目标对象上最终实例化 
+            Attribute本质上就是一个类，它附着在目标对象上最终实例化
             Attribute并不是修饰符，而是一个有着独特实例化形式的类
+
+            attribute
+        https://blog.csdn.net/aladdinty/article/details/3717572
+        C#获取某个Attribute标记过的所有类  ==> 获取类名之后，可以通过反射Activator.CreateInstance(type) 创建实例
+            https://blog.csdn.net/u014370148/article/details/88416326
+
+        C# Attribute使用技巧 遍历特性类 创建响应事件
+        https://blog.csdn.net/u010294054/article/details/89442390?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link
 
          */
 
@@ -104,7 +112,7 @@ namespace Advance
 }
 
 
-public class UnSafeTest 
+public class UnSafeTest
 {
     public unsafe void ChangeString(char * s, int len)
     {
