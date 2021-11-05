@@ -87,7 +87,13 @@ namespace Advance
 
         C# Attribute使用技巧 遍历特性类 创建响应事件
         https://blog.csdn.net/u010294054/article/details/89442390?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link
-
+                
+                
+                添加自定义Attribute后 其实只要通过反射就能拿到对应的信息（通过发射获得），然后进行不同处理，
+                https://blog.csdn.net/FantasiaX/article/details/1627694
+                https://blog.csdn.net/FantasiaX/article/details/1636913
+                
+                https://blog.csdn.net/aladdinty/article/details/3717572
          */
 
         static void TestAttribute()
