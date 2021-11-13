@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,7 +42,36 @@ namespace Advance
             //Attribute 测试
             TestAttribute();
 
+            //struct内存自定义布局
+            //https://blog.csdn.net/bigpudding24/article/details/50727792
+            TestStructMemLayout();
+
             Console.ReadLine();
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct TestMem {
+            [FieldOffset(0)]
+            public bool i;  //1Byte
+            [FieldOffset(1)]
+            public double c;//8byte
+            [FieldOffset(9)]
+            public bool b;  //1byte
+
+        }
+        static void TestStructMemLayout()
+        {
+            TestMem tMem = new TestMem();
+            tMem.i = true;
+            tMem.c = 4546;
+            tMem.b = false;
+
+            //Console.WriteLine($"tMem ====={tMem.i} {tMem.c} {tMem.b} size: {Marshal.SizeOf(tMem)}");
+
+            unsafe
+            {
+                Console.WriteLine($"tMem ====={tMem.i} {tMem.c} {tMem.b} size: {sizeof(TestMem)}");
+            }
         }
 
         static async Task<int> GetPageLengthAsync(string url)
