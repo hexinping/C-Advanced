@@ -124,6 +124,9 @@ namespace Advance
                 https://blog.csdn.net/FantasiaX/article/details/1636913
                 
                 https://blog.csdn.net/aladdinty/article/details/3717572
+
+            //获取程序集里的类型
+        http://m138640392501.lofter.com/post/1cc5e727_8d26300
          */
 
         static void TestAttribute()
