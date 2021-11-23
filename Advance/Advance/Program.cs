@@ -4,12 +4,68 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Advance
 {
+    [AttributeUsage(AttributeTargets.Class |
+        AttributeTargets.Constructor |
+       AttributeTargets.Field |
+        AttributeTargets.Method |
+        AttributeTargets.Property,
+AllowMultiple = true)]
+    public class DeBugInfoAttribute : System.Attribute
+    { 
+        
+    }
+
+    [AttributeUsage(AttributeTargets.Class |
+    AttributeTargets.Constructor |
+   AttributeTargets.Field |
+    AttributeTargets.Method |
+    AttributeTargets.Property,
+AllowMultiple = true)]
+    public class HxpTestAttribute : System.Attribute
+    {
+
+    }
+
+    [HxpTest]
+    public class HxpGame
+    { 
+    
+    }
+    public class AttributeTest1
+    {
+        public int age;
+        public string name;
+        private int money;
+
+        public void PrintAge()
+        { 
+        
+        }
+
+        private void PrintAge1()
+        {
+
+        }
+
+        private int _atk;
+        public int Atk { get; set; }
+
+        [DeBugInfo]
+        public int attributeTest;
+
+        [DeBugInfo]
+        public void PrintattributeTest()
+        { 
+        
+        }
+    }
     class Program
     {
         static void Main(string[] args)
@@ -133,6 +189,77 @@ namespace Advance
         {
             PrintA();
             PrintB(); //PrintB的条件是定义了NOBUG才会生效，感觉编译后这句代码会被优化，等于没有执行
+
+            //获取一个类下的所有public属性 ==》  FieldInfo[] fields = dst.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
+            TestAttribute1();
+
+            //一个类下的所有具有某个arribute的字段名
+            TestAttribute2();
+
+            //当前程序集中具有某个arribute的类，创建对应的实例以及调用方法
+            TestAttribute3();
+        }
+
+        static void TestAttribute3()
+        { 
+        
+        }
+        static void TestAttribute2()
+        {
+            Console.WriteLine("TestAttribute2==========");
+            AttributeTest1 t = new AttributeTest1();
+            MethodInfo[] methodInfo = t.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            foreach (MethodInfo mInfo in methodInfo)
+            {
+                Attribute[] attributes = System.Attribute.GetCustomAttributes(mInfo, true);
+                foreach (var item in attributes)
+                {
+                    if (item is DeBugInfoAttribute)
+                    {
+                        Console.WriteLine($"{mInfo.Name} 具有 DeBugInfoAttribute==========");
+                    }
+                }
+            }
+
+            FieldInfo[] fieldInfos = t.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            for (int i = 0; i < fieldInfos.Length; i++)
+            {
+                Attribute[] attributes = System.Attribute.GetCustomAttributes(fieldInfos[i], true);
+                foreach (var item in attributes)
+                {
+                    if (item is DeBugInfoAttribute)
+                    {
+                        Console.WriteLine($"{fieldInfos[i].Name} 具有 DeBugInfoAttribute==========");
+                    }
+                }
+            }
+
+
+            //t.GetType().GetCustomAttribute(typeof(DeBugInfoAttribute), true); 得到一个自定义CustomAttribute
+        }
+        static void TestAttribute1()
+        {
+            Console.WriteLine("TestAttribute1==========");
+            AttributeTest1 t = new AttributeTest1();
+            //获取字段名
+            FieldInfo[] fieldInfos = t.GetType().GetFields(BindingFlags.Instance|BindingFlags.Public| BindingFlags.NonPublic);
+            for (int i = 0; i < fieldInfos.Length; i++)
+            {
+                Console.WriteLine($"Field : {fieldInfos[i].Name}");
+            }
+
+            //获取方法名，默认是返回所有public 方法，
+            MethodInfo[] methodInfo = t.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic|BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            foreach (MethodInfo mInfo in methodInfo)
+            {
+                Console.WriteLine($"Method:  {mInfo.Name}");
+            }
+            //获取属性名，
+            PropertyInfo[] propertyInfos= t.GetType().GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+            foreach (PropertyInfo mInfo in propertyInfos)
+            {
+                Console.WriteLine($"Property:  {mInfo.Name}");
+            }
         }
 
         //Conditional 是C#本身的特性，意思就是方法PrintA，只有在定义了“BUG”才会生效
