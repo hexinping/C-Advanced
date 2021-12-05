@@ -35,8 +35,13 @@ AllowMultiple = true)]
 
     [HxpTest]
     public class HxpGame
-    { 
-    
+    {
+        public int age = 12;
+
+        public void Print()
+        {
+            Console.WriteLine("call HxpGame Print ======"+ age);
+        }
     }
     public class AttributeTest1
     {
@@ -201,8 +206,28 @@ AllowMultiple = true)]
         }
 
         static void TestAttribute3()
-        { 
-        
+        {
+            Console.WriteLine("TestAttribute3==========");
+            //获取当前的程序集
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            foreach (Type item in currentAssembly.GetTypes())
+            {
+
+                //判断某个type是否具有对应的Attribute,两个方法都可以
+                HxpTestAttribute hxpTest = item.GetCustomAttribute<HxpTestAttribute>();
+                bool isDefine = item.IsDefined(typeof(HxpTestAttribute));
+
+                if (isDefine)
+                //if (hxpTest != null)
+                {
+                    Console.WriteLine($"{item.Name} 具有 HxpTestAttribute==========");
+                    object obj = currentAssembly.CreateInstance(item.FullName);
+                    HxpGame hxpGame = obj as HxpGame;
+                    hxpGame.age = 1123;
+                    hxpGame.Print();
+                }
+
+            }
         }
         static void TestAttribute2()
         {
