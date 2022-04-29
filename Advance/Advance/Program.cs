@@ -107,7 +107,23 @@ AllowMultiple = true)]
             //https://blog.csdn.net/bigpudding24/article/details/50727792
             TestStructMemLayout();
 
+            //字符串暂存test
+            TestStringIntern();
             Console.ReadLine();
+        }
+
+        public static void TestStringIntern()
+        {
+            int a = 100;
+            string ts = $"hexinping {a}";
+            string ts1 = string.Intern(ts);
+            Console.WriteLine($"ts and ts1 {string.ReferenceEquals(ts, ts1)}");
+            string ts2 = string.Intern(ts1);
+            string ts3 = ts1;
+            Console.WriteLine($"ts2 and ts3 {string.ReferenceEquals(ts2, ts3)}");
+
+            string ts4 = ts;
+            Console.WriteLine($"ts and ts4 {string.ReferenceEquals(ts, ts4)}");
         }
 
         [StructLayout(LayoutKind.Explicit)]
